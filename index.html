@@ -1,0 +1,177 @@
+
+<<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DR.SPICY PORTAL | Trading Hub</title>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600&display=swap" rel="stylesheet">
+
+<style>
+    body {
+        margin: 0;
+        font-family: 'Orbitron', sans-serif;
+        overflow: hidden;
+        background: radial-gradient(circle at center, #0a0a12, #000000 80%);
+        color: white;
+        text-align: center;
+    }
+
+    canvas {
+        position: fixed;
+        top: 0;
+        left: 0;
+        z-index: 0;
+    }
+
+    .container {
+        position: relative;
+        z-index: 2;
+        width: 90%;
+        max-width: 420px;
+        margin: 90px auto;
+        padding: 40px;
+        background: rgba(15, 5, 5, 0.9);
+        border-radius: 25px;
+        box-shadow: 0 0 60px rgba(255, 0, 0, 0.5);
+        backdrop-filter: blur(20px);
+        border: 1px solid rgba(255, 0, 0, 0.4);
+    }
+
+    h1 {
+        font-size: 24px;
+        color: #ff1a1a;
+        margin-bottom: 8px;
+        letter-spacing: 2px;
+        text-shadow: 0 0 20px #ff0000;
+    }
+
+    p {
+        font-size: 13px;
+        margin-bottom: 30px;
+        color: #00f7ff;
+        opacity: 0.85;
+    }
+
+    .link-btn {
+        display: block;
+        text-decoration: none;
+        color: white;
+        margin: 18px 0;
+        padding: 16px;
+        border-radius: 15px;
+        background: linear-gradient(90deg, #ff0000, #8b0000);
+        font-weight: 600;
+        transition: 0.4s ease;
+        box-shadow: 0 0 20px rgba(255, 0, 0, 0.8);
+    }
+
+    .link-btn:hover {
+        transform: scale(1.07);
+        box-shadow: 0 0 40px rgba(255, 0, 0, 1);
+    }
+
+    .footer {
+        margin-top: 25px;
+        font-size: 12px;
+        opacity: 0.6;
+        letter-spacing: 1px;
+    }
+</style>
+</head>
+<body>
+
+<canvas id="chart"></canvas>
+
+<div class="container">
+    <h1>🌶 DR.SPICY PORTAL</h1>
+    <p>High Pressure Entries • Calculated Risk • Ruthless Discipline</p>
+    
+    <a class="link-btn" href="https://stan.store/affiliates/77ce780d-5be4-48e2-9d9c-5b6d12c966c2" target="_blank">
+        🤖 Pocket Option Bots
+    </a>
+
+    <a class="link-btn" href="https://url.hk/i/en/gdjdv" target="_blank">
+         💳 Redotpay Card
+    </a>
+
+    <a class="link-btn" href="https://tevau.io/invite_registration/#/?inviteCode=864780" target="_blank">
+         💳 Tevaupay Card
+    </a>
+
+    <div class="footer">
+        Feel The Heat. Master The Market.
+    </div>
+</div>
+
+<script>
+const canvas = document.getElementById("chart");
+const ctx = canvas.getContext("2d");
+
+canvas.width = window.innerWidth;
+canvas.height = window.innerHeight;
+
+let candles = [];
+let candleWidth = 8;
+
+function generateCandle(x) {
+    let base = canvas.height / 2;
+    let open = base + (Math.random() - 0.5) * 200;
+    let close = open + (Math.random() - 0.5) * 80;
+    let high = Math.max(open, close) + Math.random() * 25;
+    let low = Math.min(open, close) - Math.random() * 25;
+    return { x, open, close, high, low };
+}
+
+function drawCandle(c) {
+    const bullish = c.close > c.open;
+
+    ctx.strokeStyle = bullish ? "#00f7ff" : "#ff0000";
+    ctx.fillStyle = bullish ? "#00f7ff" : "#ff0000";
+    ctx.shadowBlur = 18;
+    ctx.shadowColor = bullish ? "#00f7ff" : "#ff0000";
+
+    // Wick
+    ctx.beginPath();
+    ctx.moveTo(c.x + candleWidth/2, c.high);
+    ctx.lineTo(c.x + candleWidth/2, c.low);
+    ctx.stroke();
+
+    // Body
+    ctx.fillRect(
+        c.x,
+        Math.min(c.open, c.close),
+        candleWidth,
+        Math.abs(c.close - c.open)
+    );
+
+    ctx.shadowBlur = 0;
+}
+
+function animate() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+    candles.forEach(c => {
+        c.x -= 1.5;
+        drawCandle(c);
+    });
+
+    candles = candles.filter(c => c.x > -candleWidth);
+
+    if (candles.length === 0 || candles[candles.length - 1].x < canvas.width - 30) {
+        candles.push(generateCandle(canvas.width));
+    }
+
+    requestAnimationFrame(animate);
+}
+
+animate();
+
+window.addEventListener("resize", () => {
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+});
+</script>
+
+</body>
+</html>
